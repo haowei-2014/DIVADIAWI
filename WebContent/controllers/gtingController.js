@@ -15,6 +15,7 @@
          $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiaweb/d-008.png");
 
          function init() {
+//             baseUrl = 'http://diufpc59:8080'; //Service installed on Marcels Computer
              baseUrl = 'http://localhost:8080/Diva-WebServices';
              document.getElementById("canvas").width = $(window).width() * 1.05;
              document.getElementById("canvas").height = $(window).height() * 0.86;
@@ -475,16 +476,16 @@
              // if the polygon is text line, decoration, or comment, highlight it,
              // because highlighting page or text block will sometimes make the broswer dead.
              if (currentModify != null && modeModify) {
-                 /*if (currentModify.strokeColor.equals(colorTextLine) ||
+                 if (currentModify.strokeColor.equals(colorTextLine) ||
                     currentModify.strokeColor.equals(colorDecoration) ||
                     currentModify.strokeColor.equals(colorComment)) {
                     currentModify.fullySelected = true;
                     currentModify.fillColor = 'red';
                     currentModify.opacity = opacityPath;
-                }*/
-                 currentModify.fullySelected = true;
+                }
+                 /*currentModify.fullySelected = true;
                  currentModify.fillColor = 'red';
-                 currentModify.opacity = opacityPath;
+                 currentModify.opacity = opacityPath;*/
              }
 
              previousModify = currentModify;
