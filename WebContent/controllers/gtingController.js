@@ -15,8 +15,8 @@
          $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiaweb/d-008.png");
 
          function init() {
-//             baseUrl = 'http://diufpc59:8080'; //Service installed on Marcels Computer
-             baseUrl = 'http://localhost:8080/Diva-WebServices';
+             baseUrl = 'http://diufpc59:8080'; //Service installed on Marcels Computer
+//             baseUrl = 'http://localhost:8080/Diva-WebServices';
              document.getElementById("canvas").width = $(window).width() * 1.05;
              document.getElementById("canvas").height = $(window).height() * 0.86;
              $(".pagination").css("left", $(window).width() * 0.83);
