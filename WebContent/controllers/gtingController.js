@@ -7,12 +7,12 @@
          byDefault = true;
          var img = new Image();
          img.onload = function() {
-             document.getElementById("parzival").src = "https://diuf.unifr.ch/diva/divadiaweb/d-008.png";
-             $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiaweb/d-008.png");
+             document.getElementById("parzival").src = "https://diuf.unifr.ch/diva/divadiawi/images/d-008.png";
+             $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiawi/images/d-008.png");
              init();
          }
-         img.src = "https://diuf.unifr.ch/diva/divadiaweb/d-008.png";
-         $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiaweb/d-008.png");
+         img.src = "https://diuf.unifr.ch/diva/divadiawi/images/d-008.png";
+         $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiawi/images/d-008.png");
 
          function init() {
              baseUrl = 'http://diufpc59:8080'; //Service installed on Marcels Computer
@@ -1575,19 +1575,19 @@
 
          $scope.pageChanged = function(pageID) {
              if (pageID == "1") {
-                 $scope.imageURL = "https://diuf.unifr.ch/diva/divadiaweb/d-008.png";
+                 $scope.imageURL = "https://diuf.unifr.ch/diva/divadiawi/images/d-008.png";
                  $('#page1').addClass('active');
                  $('#page2').removeClass('active');
                  $('#page3').removeClass('active');
              }
              if (pageID == "2") {
-                 $scope.imageURL = "https://diuf.unifr.ch/diva/divadiaweb/csg562-005.png";
+                 $scope.imageURL = "https://diuf.unifr.ch/diva/divadiawi/images/csg562-005.png";
                  $('#page2').addClass('active');
                  $('#page1').removeClass('active');
                  $('#page3').removeClass('active');
              }
              if (pageID == "3") {
-                 $scope.imageURL = "https://diuf.unifr.ch/diva/divadiaweb/308.png";
+                 $scope.imageURL = "https://diuf.unifr.ch/diva/divadiawi/images/308.png";
                  $('#page3').addClass('active');
                  $('#page1').removeClass('active');
                  $('#page2').removeClass('active');
@@ -2042,7 +2042,7 @@
                  $('#splitPolygonBtn').removeClass('active');
                  $('#mergePolygonBtn').removeClass('active');
                  document.getElementById("canvas").style.cursor =
-                     "url(https://diuf.unifr.ch/diva/divadiaweb/rectangle.gif), auto";
+                     "url(https://diuf.unifr.ch/diva/divadiawi/images/rectangle.gif), auto";
                  $scope.drawRectangle();
                  $scope.drawTextBlock();
                  disableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"));
