@@ -4,7 +4,7 @@ myApp.controller('exportGTController', ['$scope', '$element', 'imageName', 'emai
         $scope.emailAddress = emailAddress;
         // delete .png
         //           var imgNameWithoutSuffix = imageName.substring(0, imageName.indexOf(".")); 
-        $scope.xmlName = $scope.imageName + "_" + $scope.emailAddress + ".xml";
+        $scope.xmlName = $scope.imageName + ".xml";
         if (emailAddress != "") {
             emailAddress = "_" + emailAddress;
         }

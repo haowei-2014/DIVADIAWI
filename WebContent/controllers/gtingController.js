@@ -792,44 +792,71 @@
                  }
              }
              if (nearestDistance < 20) {
-                 modeModify = true;
-                 updateCurrentModifyInfo(currentModify);
-                 // find the nearest vertex to the found point, if they are close enough,
-                 // reset the found point to the vertex.
-                 var p2pDistance = 10000;
-                 var cornerFound = false;
-                 for (var i = 0; i < currentModifyPtsLength; i++) {
-                     var p2pDistanceTmp = lineDistance(currentModifyPt, currentModifyPts[i]);
-                     if (p2pDistanceTmp < 20 && p2pDistanceTmp < p2pDistance) {
-                         p2pDistance = p2pDistanceTmp;
-                         currentModifyPt = currentModifyPts[i];
-                         currentModifyInfo.currentModifyPt = currentModifyPt;
-                         currentModifyInfo.type = "modify";
-                         currentModifyInfo.currentModifyPtIndex = i;
-                         cornerFound = true;
-                     }
-                 }
-                 if (!cornerFound) {
+                 // set modeModify to false when the cursor is close to the edge of a rectangle 
+                 if (currentModify.data.shape == "polygon") {
+                     modeModify = true;
+                     updateCurrentModifyInfo(currentModify);
+                     // find the nearest vertex to the found point, if they are close enough,
+                     // reset the found point to the vertex.
+                     var p2pDistance = 10000;
+                     var cornerFound = false;
                      for (var i = 0; i < currentModifyPtsLength; i++) {
-                         var j = i + 1;
-                         if (i == (currentModifyPtsLength - 1))
-                             j = 0;
-                         //               var path = new Path.Rectangle(currentModifyPts[i], currentModifyPts[j]);
-
-                         if (pointInBetween(currentModifyPt, currentModifyPts[i], currentModifyPts[j])) {
-                             currentModifyInfo.currentModifyPtIndex = i;
+                         var p2pDistanceTmp = lineDistance(currentModifyPt, currentModifyPts[i]);
+                         if (p2pDistanceTmp < 20 && p2pDistanceTmp < p2pDistance) {
+                             p2pDistance = p2pDistanceTmp;
+                             currentModifyPt = currentModifyPts[i];
                              currentModifyInfo.currentModifyPt = currentModifyPt;
-                             currentModifyInfo.type = "insert";
-                             //          path.remove();
-                             break;
+                             currentModifyInfo.type = "modify";
+                             currentModifyInfo.currentModifyPtIndex = i;
+                             cornerFound = true;
                          }
-                         /*if (path.contains(currentModifyPt)){
+                     }
+                 } else {
+                     updateCurrentModifyInfo(currentModify);
+                     var p2pDistance = 10000;
+                     var cornerFound = false;
+                     for (var i = 0; i < currentModifyPtsLength; i++) {
+                         var p2pDistanceTmp = lineDistance(currentModifyPt, currentModifyPts[i]);
+                         if (p2pDistanceTmp < 20 && p2pDistanceTmp < p2pDistance) {
+                             p2pDistance = p2pDistanceTmp;
+                             currentModifyPt = currentModifyPts[i];
+                             currentModifyInfo.currentModifyPt = currentModifyPt;
+                             currentModifyInfo.type = "modify";
+                             currentModifyInfo.currentModifyPtIndex = i;
+                             cornerFound = true;
+                         }
+                     }
+                     if (cornerFound){
+                         modeModify = true;
+                     } else {
+                         modeModify = false;
+                     } 
+                 }
+                 
+                 if (!cornerFound) {
+                     if (currentModify.data.shape == "polygon") {
+                         for (var i = 0; i < currentModifyPtsLength; i++) {
+                             var j = i + 1;
+                             if (i == (currentModifyPtsLength - 1))
+                                 j = 0;
+                             //               var path = new Path.Rectangle(currentModifyPts[i], currentModifyPts[j]);
+
+                             if (pointInBetween(currentModifyPt, currentModifyPts[i], currentModifyPts[j])) {
+                                 currentModifyInfo.currentModifyPtIndex = i;
+                                 currentModifyInfo.currentModifyPt = currentModifyPt;
+                                 currentModifyInfo.type = "insert";
+                                 //          path.remove();
+                                 break;
+                             }
+                             /*if (path.contains(currentModifyPt)){
                         }
                         path.remove();*/
+                         }
                      }
                  }
                  // make the yellow circle centered at the currentModifyPt 
-                 currentModifyPtCircle.position = currentModifyPt;
+                 if (modeModify)
+                    currentModifyPtCircle.position = currentModifyPt;
                  if (currentModify != previousModify)
                      updateCurrentModifyInfo(currentModify);
              } else {
