@@ -766,6 +766,7 @@
                      }
                  }
 
+
                  function searchCurrentModifyPt(event) {
                      currentModifyPtCircle = new Path.Circle({
                          center: new Point(0, 0),
@@ -798,57 +799,86 @@
                              }
                          }
                      }
-                     if (nearestDistance < 20) {
-                         modeModify = true;
-                         updateCurrentModifyInfo(currentModify);
-                         // find the nearest vertex to the found point, if they are close enough,
-                         // reset the found point to the vertex.
-                         var p2pDistance = 10000;
-                         var cornerFound = false;
-                         for (var i = 0; i < currentModifyPtsLength; i++) {
-                             var p2pDistanceTmp = lineDistance(currentModifyPt, currentModifyPts[i]);
-                             if (p2pDistanceTmp < 20 && p2pDistanceTmp < p2pDistance) {
-                                 p2pDistance = p2pDistanceTmp;
-                                 currentModifyPt = currentModifyPts[i];
-                                 currentModifyInfo.currentModifyPt = currentModifyPt;
-                                 currentModifyInfo.type = "modify";
-                                 currentModifyInfo.currentModifyPtIndex = i;
-                                 cornerFound = true;
-                             }
+             if (nearestDistance < 20) {
+                 // set modeModify to false when the cursor is close to the edge of a rectangle 
+                 if (currentModify.data.shape == "polygon") {
+                     modeModify = true;
+                     updateCurrentModifyInfo(currentModify);
+                     // find the nearest vertex to the found point, if they are close enough,
+                     // reset the found point to the vertex.
+                     var p2pDistance = 10000;
+                     var cornerFound = false;
+                     for (var i = 0; i < currentModifyPtsLength; i++) {
+                         var p2pDistanceTmp = lineDistance(currentModifyPt, currentModifyPts[i]);
+                         if (p2pDistanceTmp < 20 && p2pDistanceTmp < p2pDistance) {
+                             p2pDistance = p2pDistanceTmp;
+                             currentModifyPt = currentModifyPts[i];
+                             currentModifyInfo.currentModifyPt = currentModifyPt;
+                             currentModifyInfo.type = "modify";
+                             currentModifyInfo.currentModifyPtIndex = i;
+                             cornerFound = true;
                          }
-                         if (!cornerFound) {
-                             for (var i = 0; i < currentModifyPtsLength; i++) {
-                                 var j = i + 1;
-                                 if (i == (currentModifyPtsLength - 1))
-                                     j = 0;
-                                 //               var path = new Path.Rectangle(currentModifyPts[i], currentModifyPts[j]);
+                     }
+                 } else {
+                     updateCurrentModifyInfo(currentModify);
+                     var p2pDistance = 10000;
+                     var cornerFound = false;
+                     for (var i = 0; i < currentModifyPtsLength; i++) {
+                         var p2pDistanceTmp = lineDistance(currentModifyPt, currentModifyPts[i]);
+                         if (p2pDistanceTmp < 20 && p2pDistanceTmp < p2pDistance) {
+                             p2pDistance = p2pDistanceTmp;
+                             currentModifyPt = currentModifyPts[i];
+                             currentModifyInfo.currentModifyPt = currentModifyPt;
+                             currentModifyInfo.type = "modify";
+                             currentModifyInfo.currentModifyPtIndex = i;
+                             cornerFound = true;
+                         }
+                     }
+                     if (cornerFound){
+                         modeModify = true;
+                     } else {
+                         modeModify = false;
+                     } 
+                 }
+                 
+                 if (!cornerFound) {
+                     if (currentModify.data.shape == "polygon") {
+                         for (var i = 0; i < currentModifyPtsLength; i++) {
+                             var j = i + 1;
+                             if (i == (currentModifyPtsLength - 1))
+                                 j = 0;
+                             //               var path = new Path.Rectangle(currentModifyPts[i], currentModifyPts[j]);
 
-                                 if (pointInBetween(currentModifyPt, currentModifyPts[i], currentModifyPts[j])) {
-                                     currentModifyInfo.currentModifyPtIndex = i;
-                                     currentModifyInfo.currentModifyPt = currentModifyPt;
-                                     currentModifyInfo.type = "insert";
-                                     //          path.remove();
-                                     break;
-                                 }
-                                 /*if (path.contains(currentModifyPt)){
+                             if (pointInBetween(currentModifyPt, currentModifyPts[i], currentModifyPts[j])) {
+                                 currentModifyInfo.currentModifyPtIndex = i;
+                                 currentModifyInfo.currentModifyPt = currentModifyPt;
+                                 currentModifyInfo.type = "insert";
+                                 //          path.remove();
+                                 break;
+                             }
+                             /*if (path.contains(currentModifyPt)){
                         }
                         path.remove();*/
-                             }
                          }
-                         // make the yellow circle centered at the currentModifyPt 
-                         currentModifyPtCircle.position = currentModifyPt;
-                         if (currentModify != previousModify)
-                             updateCurrentModifyInfo(currentModify);
-                     } else {
-                         if (previousModify != null) {
-                             previousModify.fullySelected = false;
-                             previousModify.fillColor = null;
-                             previousModify.opacity = 1;
-                         }
-                         modeModify = false;
                      }
                      view.draw();
                  }
+                 // make the yellow circle centered at the currentModifyPt 
+                 if (modeModify)
+                    currentModifyPtCircle.position = currentModifyPt;
+                 if (currentModify != previousModify)
+                     updateCurrentModifyInfo(currentModify);
+             } else {
+                 if (previousModify != null) {
+                     previousModify.fullySelected = false;
+                     previousModify.fillColor = null;
+                     previousModify.opacity = 1;
+                 }
+                 modeModify = false;
+             }
+             view.draw();
+         }
+
 
 
                  // This method is to zoom in/out. After zooming, the pixel under the cursor will move away, so we 
