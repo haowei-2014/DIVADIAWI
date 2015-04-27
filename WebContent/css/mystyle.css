@@ -25,7 +25,7 @@
 
 #userGuideSpan{
     position:absolute; 
-    top:43px; 
+    top:38px; 
     left:1720px;
     float:right;
     margin: 0px 0px;
@@ -121,4 +121,12 @@
     margin-top: 0px;
     padding-bottom: 0px;
     margin-bottom: 0px;
+}
+
+#divYouTube {
+  text-align: center;
+  width:100%;
+}
+.iframe{
+  width: 200px;
 }

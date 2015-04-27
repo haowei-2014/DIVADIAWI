@@ -1054,8 +1054,29 @@
                  }
 
 
-                 // clear the current drawing paths
+/*                 // clear the current drawing paths
                  $scope.clearGT = function() {
+                     var layerChildren = project.activeLayer.children;
+                     var pathsToBeDeleted = [];
+                     for (var i = 0; i < layerChildren.length; i++) {
+                         if (layerChildren[i].className == "Path" && layerChildren[i].strokeColor != null) {
+                             // save the paths to an array
+                             pathsToBeDeleted.push(layerChildren[i]);
+                         }
+                     }
+                     for (var i = 0; i < pathsToBeDeleted.length; i++) {
+                         pathsToBeDeleted[i].remove();
+                         // also delete the DOM elements
+                         if (pathsToBeDeleted[i].data.idXML)
+                             updateDOMDelete(pathsToBeDeleted[i].data.idXML);
+                         else
+                             updateDOMDelete(pathsToBeDeleted[i].id);
+
+                     }
+                     view.draw();
+                 }*/
+                 
+                 $scope.clearAutomaticResult = function() {
                      var layerChildren = project.activeLayer.children;
                      var pathsToBeDeleted = [];
                      for (var i = 0; i < layerChildren.length; i++) {
