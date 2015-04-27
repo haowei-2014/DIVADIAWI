@@ -16,7 +16,7 @@
 
              function init() {
                  baseUrl = 'http://diufpc59:8080'; //Service installed on Marcels Computer
-                 //             baseUrl = 'http://localhost:8080/Diva-WebServices';
+//                 baseUrl = 'http://localhost:8080/Diva-WebServices';
                  document.getElementById("canvas").width = $(window).width() * 1.05;
                  document.getElementById("canvas").height = $(window).height() * 0.86;
                  $(".pagination").css("left", $(window).width() * 0.83);
@@ -50,6 +50,7 @@
                  raster.position = view.center;
                  $scope.polygon = []; // vertexes of the polygon drawn manually
                  vertexesAuto = []; // vertexes of the polygon automatically drawn
+                 segmentsAuto = []; // segments automatically drawn
                  color = 'red';
                  $scope.regions = [{
                      name: 'text line',
@@ -169,6 +170,8 @@
                  erasePolygon = [];
                  currentErasePolygon = null;
                  linkingRectWidth = 80;
+                 if (imgWidth == 2200)   // special for georgie washington dataset
+                     linkingRectWidth = 120;
                  linkingRectHeight = 20;
                  autoMerge = false;
                  mergePolygon1 = [];
@@ -1077,21 +1080,13 @@
                  }*/
                  
                  $scope.clearAutomaticResult = function() {
-                     var layerChildren = project.activeLayer.children;
-                     var pathsToBeDeleted = [];
-                     for (var i = 0; i < layerChildren.length; i++) {
-                         if (layerChildren[i].className == "Path" && layerChildren[i].strokeColor != null) {
-                             // save the paths to an array
-                             pathsToBeDeleted.push(layerChildren[i]);
-                         }
-                     }
-                     for (var i = 0; i < pathsToBeDeleted.length; i++) {
-                         pathsToBeDeleted[i].remove();
+                     for (var i = 0; i < segmentsAuto.length; i++) {
+                         segmentsAuto[i].remove();
                          // also delete the DOM elements
-                         if (pathsToBeDeleted[i].data.idXML)
-                             updateDOMDelete(pathsToBeDeleted[i].data.idXML);
+                         if (segmentsAuto[i].data.idXML)
+                             updateDOMDelete(segmentsAuto[i].data.idXML);
                          else
-                             updateDOMDelete(pathsToBeDeleted[i].id);
+                             updateDOMDelete(segmentsAuto[i].id);
 
                      }
                      view.draw();
@@ -1898,9 +1893,9 @@
                          $('#erasePolygonBtn').addClass('active');
                          document.getElementById("canvas").style.cursor =
                              "url(http://www.rw-designer.com/cursor-extern.php?id=3243), auto";
-                         disableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"));
+                         disableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"), $("#clearAutomaticResult"));
                      } else {
-                         enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"));
+                         enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"), $("#clearAutomaticResult"));
                      }
                  }
 
@@ -1936,14 +1931,14 @@
                                  erasePolygon = [];
                                  currentErasePolygon = null;
                                  autoErase = false;
-                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"));
+                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"), $("#clearAutomaticResult"));
                                  view.update();
                              } else {
                                  alert("Erase operation failed.");
                                  erasePolygon = [];
                                  currentErasePolygon = null;
                                  autoErase = false;
-                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"));
+                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#splitPolygon"), $("#clearAutomaticResult"));
                              }
 
                          }
@@ -1960,9 +1955,9 @@
                          modeModify = false;
                          document.getElementById("canvas").style.cursor =
                              "url(http://www.rw-designer.com/cursor-extern.php?id=28789), auto";
-                         disableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                         disableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                      } else {
-                         enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                         enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                      }
                  }
 
@@ -1997,14 +1992,14 @@
                                  splitPolygon = [];
                                  currentSplitPolygon = null;
                                  autoSplit = false;
-                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                                  view.update();
                              } else {
                                  alert("Split operation failed.");
                                  splitPolygon = [];
                                  currentSplitPolygon = null;
                                  autoSplit = false;
-                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                                 enableElements($("#mergePolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                              }
                          }
                      });
@@ -2020,9 +2015,9 @@
                          modeModify = false;
                          document.getElementById("canvas").style.cursor =
                              "url(http://www.rw-designer.com/cursor-extern.php?id=28786), auto";
-                         disableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                         disableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                      } else {
-                         enableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                         enableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                          mergePolygon1 = [];
                          mergePolygon2 = [];
                          mergeCount = 0; // indicate which polygon the user is clicking. It is at most 2.
@@ -2076,7 +2071,7 @@
                                  currentMergePolygon2 = null;
                                  //      currentModify.remove();
                                  autoMerge = false;
-                                 enableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                                 enableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                                  view.update();
                              } else {
                                  mergePolygon1 = [];
@@ -2085,7 +2080,7 @@
                                  currentMergePolygon1 = null;
                                  currentMergePolygon2 = null;
                                  autoMerge = false;
-                                 enableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"));
+                                 enableElements($("#splitPolygon"), $("#selectTextBlock"), $("#erasePolygon"), $("#clearAutomaticResult"));
                                  alert("Merge operation failed.");
                              }
                          }
@@ -2108,9 +2103,9 @@
                              "url(https://diuf.unifr.ch/diva/divadiawi/images/rectangle.gif), auto";
                          $scope.drawRectangle();
                          $scope.drawTextBlock();
-                         disableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"));
+                         disableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"), $("#clearAutomaticResult"));
                      } else {
-                         enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"));
+                         enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"), $("#clearAutomaticResult"));
                          $scope.drawPolygon();
                          $scope.drawTextLine();
                      }
@@ -2203,7 +2198,7 @@
                          success: function(data) {
                              processResponseJson(data);
                              document.getElementById("autoSegmentComment").innerHTML = "";
-                             enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"));
+                             enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"), $("#clearAutomaticResult"));
                              autoTextline = false;
                              autoTextLineRectangle.remove();
                              view.update();
@@ -2212,25 +2207,27 @@
                              alert('Automatic text lines extraction failed.');
                              document.getElementById("autoSegmentComment").innerHTML = "";
                              autoTextLineRectangle.remove();
-                             enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"));
+                             enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"), $("#clearAutomaticResult"));
                              autoTextline = false;
                          }
                      });
                  }
 
                  // when one automatic operation is done, enable others
-                 function enableElements(a, b, c) {
+                 function enableElements(a, b, c, d) {
                      a.prop("disabled", false);
                      b.prop("disabled", false);
                      c.prop("disabled", false);
+                     d.prop("disabled", false);
                      document.getElementById("canvas").style.cursor = "auto";
                  }
 
                  // when one automatic operation is running, others are disabled
-                 function disableElements(a, b, c) {
+                 function disableElements(a, b, c, d) {
                      a.prop("disabled", true);
                      b.prop("disabled", true);
                      c.prop("disabled", true);
+                     d.prop("disabled", true);
                  }
 
                  function processResponseJson(responseJson) {
@@ -2293,6 +2290,7 @@
                          }
                          currentDrawPathAuto.strokeWidth = widthLine;
                          currentDrawPathAuto.closed = true;
+                         segmentsAuto.push(currentDrawPathAuto);
                          if (xmlDoc == null)
                              initDom();
                          updateDOMDraw("auto");
