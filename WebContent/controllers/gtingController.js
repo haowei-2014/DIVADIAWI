@@ -211,7 +211,20 @@
                          drag = true;
                          singleClick = false;
                          doubleClick = false;
-                         document.getElementById("canvas").style.cursor = "auto";
+                         if (autoTextline)
+                             document.getElementById("canvas").style.cursor =
+                             "url(https://diuf.unifr.ch/diva/divadiawi/images/rectangle.gif), auto";
+                         else if (autoMerge)
+                            document.getElementById("canvas").style.cursor =
+                             "url(http://www.rw-designer.com/cursor-extern.php?id=28786), auto";
+                         else if (autoSplit)
+                            document.getElementById("canvas").style.cursor =
+                             "url(http://www.rw-designer.com/cursor-extern.php?id=28789), auto";
+                         else if (autoErase)
+                            document.getElementById("canvas").style.cursor =
+                             "url(http://www.rw-designer.com/cursor-extern.php?id=3243), auto";
+                         else 
+                             document.getElementById("canvas").style.cursor = "auto";
                      }
                  } else if (t - lastClick < 200) {
                      console.log("double"); // double is a single plus a double, bad implementation!
