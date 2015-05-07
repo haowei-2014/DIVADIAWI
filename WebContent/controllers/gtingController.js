@@ -533,7 +533,11 @@
 
              // if you use the modify mode and insert a point, do it and update the current polygon information 
              tool.onMouseDown = function(event) {
-                 if ((currentModifyInfo.type == "insert") && (modeModify)) {
+                 var xClick = Math.round((event.point.x - raster.bounds.x) / zoom);
+                 var yClick = Math.round((event.point.y - raster.bounds.y) / zoom);
+                 if (xClick < 0 || xClick >= imgWidth || yClick < 0 || yClick >= imgHeight) {
+                     // do nothing
+                 } else if ((currentModifyInfo.type == "insert") && (modeModify)) {
                      currentModify.insert(currentModifyInfo.currentModifyPtIndex + 1, event.point);
                      updateCurrentModifyInfo(currentModify);
                      updateDOMModify();
@@ -1430,7 +1434,11 @@
                      });
                  }
 
-                 $(document).ready(function() {
+                 // This is used to make $("#myInput").change() work.
+                 $("#myInput").click(function() {
+                        this.value = null;
+                     });
+ 
                      // do import event whenever #myInput is closed.
                      $("#myInput").change(function() {
                          var fileToLoad = document.getElementById("myInput").files[0];
@@ -1444,7 +1452,7 @@
                          fileReader.readAsText(fileToLoad, "UTF-8");
                          //       var fileText = fileReader.result;
                      });
-                 });
+
 
                  function updateDOMDraw(type) {
                      var tmpVertexesPolygon = null;
@@ -1664,11 +1672,29 @@
                  $scope.myFunction = function() {
                      alert("test modal");
                  }
+                 
+                 // clear old gt that was imported earlier
+                 function clearOldImportedGT() {
+                     var layerChildren = project.activeLayer.children;
+                     var removed = true;                     
+                     while (removed) {
+                         removed = false;
+                         for (var i = 0; i < layerChildren.length; i++) {
+                             if (layerChildren[i].data.idXML) {
+                                 var idXMLTemp = layerChildren[i].data.idXML;
+                                 layerChildren[i].remove();
+                                 updateDOMDelete(idXMLTemp);
+                                 removed = true;
+                             }
+                         }
+                     }
+                     view.update();
+                 }
 
                  // draw ground truth on the canvas
                  function drawGT(x) {
+                     clearOldImportedGT();
                      xmlDoc = loadXMLString(x);
-
                      var currentDrawPath;
                      var page = xmlDoc.getElementsByTagName("Page")[0];
                      var textRegions = page.childNodes;
