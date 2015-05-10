@@ -10,7 +10,7 @@
 }
 
 .userGuideText{
-    font-size:large;
+    font-size:x-large;
 }
 
 #userGuide{
@@ -33,6 +33,19 @@
     padding-right: 0px;
     padding-bottom: 20px;
     padding-left: 10px;
+}
+
+/*User guide. It is used to center figures. */
+div.figure {
+  float: center;
+  width: 100%;
+}
+
+div.figure p {
+  text-align: center;
+  font-style: italic;
+  font-size: medium;
+  text-indent: 0;
 }
 
 #canvas{

@@ -492,9 +492,7 @@
                  // if the polygon is text line, decoration, or comment, highlight it,
                  // because highlighting page or text block will sometimes make the broswer dead.
                  if (currentModify != null && modeModify) {
-                     if (currentModify.strokeColor.equals(colorTextLine) ||
-                         currentModify.strokeColor.equals(colorDecoration) ||
-                         currentModify.strokeColor.equals(colorComment)) {
+                     if (currentModify.strokeColor.equals(colorTextLine) {
                          currentModify.fullySelected = true;
                          currentModify.fillColor = 'red';
                          currentModify.opacity = opacityPath;
