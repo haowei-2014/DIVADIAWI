@@ -492,15 +492,17 @@
                  // if the polygon is text line, decoration, or comment, highlight it,
                  // because highlighting page or text block will sometimes make the broswer dead.
                  if (currentModify != null && modeModify) {
-                     if (currentModify.strokeColor.equals(colorTextLine) {
+                     if (currentModify.strokeColor.equals(colorTextLine)) {
                          currentModify.fullySelected = true;
                          currentModify.fillColor = 'red';
                          currentModify.opacity = opacityPath;
                      }
+                 }
+                     
                      /*currentModify.fullySelected = true;
                  currentModify.fillColor = 'red';
                  currentModify.opacity = opacityPath;*/
-                 }
+                 
 
                  previousModify = currentModify;
                  currentModifyPtsLength = currentModify.segments.length;

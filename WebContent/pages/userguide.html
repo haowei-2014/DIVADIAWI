@@ -7,21 +7,21 @@
     <br>
     
     
-    <p><a href="#C4" target="_self">See also Chapter 4.</a></p>
+
 
     <p class='userGuideText'>The name DivaDiaWI stands for a Web-based Interface for Document Image Analysis of <a href="http://diuf.unifr.ch/main/diva/">DIVA group</a> (Document, Image and Voice Analysis group). DivaDiaWI is used for assisting the user to semi-automatically generate ground truth for large numbers of historical documents. </p>
 
-    <p class='userGuideText'>The video showing the user guide is below. The detailed text of the user guide is shown below the video.</p>
+    <p class='userGuideText'>The video showing the user guide is below. The more detailed text of the user guide is shown below the video.</p>
 
     <div id="divYouTube">
-        <iframe width="900" height="600" src="//www.youtube.com/embed/WWOg4F-MTYk?autoplay=0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen">
+        <iframe width="900" height="600" src="//www.youtube.com/embed/1RIdMUF48UE?autoplay=0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen">
         </iframe>
     </div>
 
     <br>
 
 
-    <p class='userGuideText'>DivaDiaWI incorporates two parts: automatic processing and manual editing. In the automatic processing part, the system automatically draws polygons representing text lines for which manual generation of GT is quite time-consuming. Parallelly or sequentially, the user can manually edit the polygons by modifying them or directly drawing new polygons.</p>
+    <p class='userGuideText'>DivaDiaWI incorporates two parts: automatic processing and manual editing. In the automatic processing part, the system automatically draws polygons representing text lines for which manual generation of the ground truth is quite time-consuming. Parallelly or sequentially, the user can manually edit the polygons by modifying them or directly drawing new polygons.</p>
 
     <ul>
         <li>
@@ -29,7 +29,7 @@
         </li>
         <p class='userGuideText'>The user can upload any image to DivadiaWI. To upload an image, select File -> Open image..., or click the button <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></button>. The user can either type the url of the image, or choose the image from his/her local computer.
         </p>
-        <p class='userGuideText'>The user can use the mouse wheel to zoom in/out and drag the image. Moreover, with the directional arrows and zooming buttons in the left, the user can also move and zoom the image, just like using a map.
+        <p class='userGuideText'>Similar with using Google Maps, the user can use the mouse wheel to zoom in/out and drag the image. Moreover, with the directional and zooming panels in the left, the user can also move and zoom the image. 
         </p>
         <li>
             <h2>Automatic processing</h2>
@@ -62,14 +62,14 @@
             </div>
 
             <p class='userGuideText'>
-                The perfomance of the automatic text lines segmentation depends much on how the user manually selects text block. Here we give some tips. 1) The selected area should contain only one single-column text block. If the two columns of text blocks (e.g., the pages of the Parzival dataset) are selected together, the segment process button will probably fail. 2) The selection should be as precise as possible. Don't contain much margin of the text block.</p>
+                The perfomance of the automatic text lines segmentation depends much on how the user manually selects text block. Here we give some tips. 1) The selected area should contain only one single-column text block. If the two columns of text blocks (e.g., the pages of the Parzival dataset) are selected together, the segment process will probably fail. 2) The selection of text block should be as precise as possible. Don't contain much margin of the text block.</p>
             
             <li>
                 <h3>Split</h3>
             </li>
-            <p class='userGuideText'>The Split button is used to split polygons that are <b>vertically</b> connected (Fig. 2(a)). Be careful that the split button only processes polygons that are vertically connected. If the polygons are horizontally connected, or irregularly connected, the split button will fail. In additin, the Split button only processes the polygons representing text lines. </p>
+            <p class='userGuideText'>The Split button is used to split polygons that are <b>vertically</b> connected (Fig. 2(a)). Be careful that the Split button only processes polygons that are vertically connected. If the polygons are horizontally connected, or irregularly connected, the Split button will fail. In additin, the Split button only processes the polygons representing text lines. </p>
             <p class='userGuideText'>The user needs to click this button, and the cursor will become
-                <img src="http://www.rw-designer.com/cursor-extern.php?id=28789">. Then the user clicks the position from where you want to separate the lines (Fig. 2(b)). If the click position is outside the polygon, the split process will fail. The result is shown in Fig. 2(c).</p>
+                <img src="http://www.rw-designer.com/cursor-extern.php?id=28789">. Then the user clicks the position from where he/she wants to separate the lines (Fig. 2(b)). If the click position is outside the polygon, the split process will fail. The result is shown in Fig. 2(c).</p>
             <div class="figure">
                 <p>
                     <img src="https://diuf.unifr.ch/diva/divadiawi/images/SplitStep1.png" height="200" width="800">
@@ -88,7 +88,7 @@
             <li>
                 <h3>Merge</h3>
             </li>
-            <p class='userGuideText'>The Merge button is used to merge polygons that are <b>horizontally</b> connected (Fig. 3(a)). The merge button is mostly used on the George Washington dataset, as the gaps between words are often big. Be careful that the merge button only processes polygons that are horizontally separated. If the polygons are vertically separated, or irregularly separated, the merge button will fail. In additin, the Merge button only processes the polygons representing text lines.</p>
+            <p class='userGuideText'>The Merge button is used to merge polygons that are <b>horizontally</b> separated (Fig. 3(a)). The Merge button is mostly used on the George Washington dataset, as the gaps between words are often big. Be careful that the Merge button only processes polygons that are horizontally separated. If the polygons are vertically separated, or irregularly separated, the Merge button will fail. In additin, the Merge button only processes the polygons representing text lines.</p>
                 
                 <p class='userGuideText'>The user needs to click this button, and the cursor will become <img src="http://www.rw-designer.com/cursor-extern.php?id=28786">. Then the user clicks the interior of the first polygon, and then clicks the interior of the second polygon (Fig. 3(b)). If the click position is outside the polygon, the merge process will fail. The result is shown in Fig. 3(c).</p>
             
@@ -129,24 +129,6 @@
             </div>
         </ul>
         
-        
-        
-        
-        
-        
-        
-        <h2><a id="C4">Chapter 4</a></h2>
-<p>This chapter explains ba bla bla</p>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <li>
             <h2>Manual editing</h2>
         </li>
@@ -160,24 +142,23 @@
             <li>
                 <h3>Manual modification</h3>
             </li>
-            <p class='userGuideText'>When the cursor is close enough to the boundary of a region, the region is highlighted with light red. In the meanwhile, a small yellow ball appears on the boundary. The appearance of the highlight means that now the user can modify the region. If no highlight is shown, the user cannot modify any region.</p>
+            <p class='userGuideText'>When the cursor is close enough to the boundary of a region, a small yellow ball appears on the boundary. The appearance of the small yellow ball means that now the user can modify the region. If the region is a text line, the region is highlighted with light red. If no small yellow ball is shown, the user cannot modify any region.</p>
             <p class='userGuideText'>Manual modification includes three types of operations: move a vertex, add a vertex, and delete a region. The location of the small yellow ball is the closest location on the boundary to the cursor. If the small yellow ball is located at a vertex, the user can move the vertex by dragging the mouse. Otherwise, by dragging the mouse, the user adds a new vertex to the boundary and moves it to a new position. Finally, the user can delete the region by press <kbd>delete</kbd>.
             </p>
         </ul>
-        <p class='userGuideText'>By default, all region types are shown after being drawn. But the user can choose only optional region tyeps to show. For example, if the user wants to see all text lines but hide the other region types, select "Show" in the menubar, and then choose "Text line". The user can choose multiple region types to show. In addition, only the shown regions can be modified again.
+        <p class='userGuideText'>By default, all region types are shown after being drawn. But the user can choose only optional region tyeps to show. For example, if the user wants to see all text lines but hide the other region types, select "Show" in the menubar, and then choose "Text line". The user can also choose multiple region types to show. In addition, only the shown regions can be modified again.
         </p>
     </ul>
-    <p class='userGuideText'>After finishing the manual edition, the user can save the ground truth in an XML file of the <a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5597587">PAGE format</a>. To do it, select File -> Save GT..., or click the button "Export GT". The user is asked to fill in information including the image name and email address. The XML file name is automatically composed of the image name and email address, but the user can also type the customized name. Click "OK" and save the ground truth. Later on, the user can import the ground truth to view or edit again by selecting File -> Read GT..., or by clicking the button "Import GT".
+    <p class='userGuideText'>After finishing the ground truthing, the user can save the ground truth in an XML file of the <a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5597587">PAGE format</a>. To do it, select File -> Save GT..., or click the button 
+        <button type="button" class="btn btn-primary">
+        <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>
+        </button>. 
+        The user is asked to fill in information including the image name and email address. The XML file name is automatically composed of the image name and email address, but the user can also type the customized name. Click "OK" and save the ground truth. Later on, the user can open the ground truth to view or edit it again by selecting File -> Read GT..., or by clicking the button 
+        <button type="button" class="btn btn-primary">
+        <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+        </button>.
     </p>
-
-
-
-
-
-
-
-
-
+    <p class='userGuideText'>Have fun :-)</p>
 
 </div>
 
