@@ -15,7 +15,7 @@
              $("#imageURLModal").val("https://diuf.unifr.ch/diva/divadiawi/images/d-008.png");
 
              function init() {
-                 baseUrl = 'http://diufpc59:8080'; //Service installed on Marcels Computer
+                 baseUrl = 'http://divaservices.unifr.ch'; //Service installed on Marcels Computer
 //                 baseUrl = 'http://localhost:8080/Diva-WebServices';
                  document.getElementById("canvas").width = $(window).width() * 1.05;
                  document.getElementById("canvas").height = $(window).height() * 0.86;
@@ -1124,7 +1124,8 @@
                              }
                          }
                          // when backspace is pressed, remove the last path point, just like Kai's software
-                         if (event.key == 'backspace' && currentDrawPath && currentDrawPath.data.shape == "polygon" && !pathFinished) {
+                         if ((event.key == 'backspace' || event.key == 'escape') && currentDrawPath && currentDrawPath.data.shape == "polygon" && !pathFinished) {
+                             console.log(event.keyCode);
                              event.preventDefault();
                              if (currentDrawPath.segments.length == 1) {
                                  currentDrawPath.remove();
@@ -1903,7 +1904,7 @@
 
                  $(document).ready(function() {
                      $('#autoSegment').click(function() {
-                         document.getElementById("autoSegmentComment").innerHTML = "Please wait for a few seconds!";
+                         document.getElementById("autoSegmentComment").innerHTML = "Please wait for a few seconds/minutes depending on the size of the rectangle!";
                          var imageUrl = document.getElementById("parzival").src;
                          $.post('AutoSegmentServlet', {
                                  imageName: imgName,
@@ -2181,33 +2182,19 @@
                      if (right + padding < imgWidth)
                          right = right + padding;
 
-                     document.getElementById("autoSegmentComment").innerHTML = "Please wait for a few seconds!";
+                     document.getElementById("autoSegmentComment").innerHTML = "Please wait for a few seconds/minutes depending on the size of the rectangle!";
                      var imageUrl = document.getElementById("parzival").src;
                      if (imgName && imgName != "")
                          imgName = getImageName(imgName);
-
-                     //             $.ajax({
-                     //                 type: "POST", // it's easier to read GET request parameters
-                     //                 url: 'AutoSegmentServlet',
-                     //                 dataType: 'JSON',
-                     //                 data: {
-                     //                     imageName: imgName,
-                     //                     imageURL: imageUrl,
-                     //                     top: top,
-                     //                     bottom: bottom,
-                     //                     left: left,
-                     //                     right: right,
-                     //                     linkingRectWidth: linkingRectWidth,
-                     //                     linkingRectHeight: linkingRectHeight
-                     //                 },
-
-                     $.ajax({
+                     // if it is a base64 file, post "image", otherwise, post "url"
+                     if (imageUrl.slice(0, 4) == "data"){
+                         $.ajax({
                          type: "POST", // it's easier to read GET request parameters
                          url: baseUrl + '/segmentation/textline/gabor',
                          dataType: 'JSON',
                          contentType: 'application/json',
                          data: JSON.stringify({
-                             "url": imageUrl,
+                             "image": imageUrl,
                              "top": top,
                              "bottom": bottom,
                              "left": left,
@@ -2215,25 +2202,6 @@
                              "linkingRectWidth": linkingRectWidth,
                              "linkingRectHeight": linkingRectHeight
                          }),
-
-
-                         /*type: "POST", // it's easier to read GET request parameters
-                 url: 'http://diufpc59:8080/segmentation/textline/gabor',
-                 dataType: 'json',
-                 contentType: 'application/json',
-                 data: JSON.stringify({
-                     //imageName: imgName,
-                     "url": imageUrl,
-                     "top": top,
-                     "bottom": bottom,
-                     "left": left,
-                     "right": right,
-                     //linkingRectWidth: linkingRectWidth,
-                     //linkingRectHeight: linkingRectHeight
-                 }),*/
-
-
-
                          success: function(data) {
                              processResponseJson(data);
                              document.getElementById("autoSegmentComment").innerHTML = "";
@@ -2250,6 +2218,38 @@
                              autoTextline = false;
                          }
                      });
+                     } else {
+                         $.ajax({
+                         type: "POST", // it's easier to read GET request parameters
+                         url: baseUrl + '/segmentation/textline/gabor',
+                         dataType: 'JSON',
+                         contentType: 'application/json',
+                         data: JSON.stringify({
+                             "url": imageUrl,
+                             "top": top,
+                             "bottom": bottom,
+                             "left": left,
+                             "right": right,
+                             "linkingRectWidth": linkingRectWidth,
+                             "linkingRectHeight": linkingRectHeight
+                         }),
+                         success: function(data) {
+                             processResponseJson(data);
+                             document.getElementById("autoSegmentComment").innerHTML = "";
+                             enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"), $("#clearAutomaticResult"));
+                             autoTextline = false;
+                             autoTextLineRectangle.remove();
+                             view.update();
+                         },
+                         error: function() {
+                             alert('Automatic text lines extraction failed.');
+                             document.getElementById("autoSegmentComment").innerHTML = "";
+                             autoTextLineRectangle.remove();
+                             enableElements($("#splitPolygon"), $("#mergePolygon"), $("#erasePolygon"), $("#clearAutomaticResult"));
+                             autoTextline = false;
+                         }
+                     });
+                     }  
                  }
 
                  // when one automatic operation is done, enable others
